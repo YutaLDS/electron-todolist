@@ -7,7 +7,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'todo-page',
+      name: 'todo',
       component: require('@/components/ToDo').default
     },
     {

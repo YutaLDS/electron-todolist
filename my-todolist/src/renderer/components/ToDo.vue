@@ -1,7 +1,7 @@
 <template>
   <el-main>
-    <el-input v-model.trim="todo" placeholder="ToDo‚ğ“ü—Í">
-      <el-button slot="append" @click="addTodo()">Add</el-button>
+    <el-input v-model.trim="todo" placeholder="ToDoã‚’å…¥åŠ›">
+      <el-button slot="append" @click="addTodo">Add</el-button>
     </el-input>
 
     <el-table :data="todoList" :show-header="false" stripe>
@@ -24,7 +24,7 @@
       }
     },
     methods: {
-      // Add‰Ÿ‰º’Ç‰Á
+      // AddæŠ¼ä¸‹æ™‚
       addTodo () {
         var todoObj = {}
         todoObj.todo = this.todo
@@ -39,7 +39,7 @@
         this.todoList = getLocalStorage()
         this.todo = ''
       },
-      // Done‰Ÿ‰ºíœ
+      // DoneæŠ¼ä¸‹æ™‚
       deleteTodo (index) {
         deleteLocalStorage(index)
         this.todoList = getLocalStorage()
@@ -47,37 +47,33 @@
     }
   }
 
-// LocalStorage‚©‚çæ“¾
-var getLocalStorage = function () {
+  // LocalStorageå–å¾—
+  var getLocalStorage = function () {
     var todoList = []
     if (localStorage.getItem('todoList') != null) {
       todoList = localStorage.getItem('todoList')
       todoList = JSON.parse(todoList)
     }
     return todoList
-}
+  }
 
-// LocalStorage‚Ö•Û‘¶
-var setLocalStorage = function (todoList) {
+  // LocalStorageä¿å­˜
+  var setLocalStorage = function (todoList) {
     var jsonData = JSON.stringify(todoList)
     localStorage.setItem('todoList', jsonData)
-}
+  }
 
-// LocalStorage‚©‚çíœ
-var deleteLocalStorage = function (index) {
+  // LocalStorageå‰Šé™¤
+  var deleteLocalStorage = function (index) {
     var todoList = getLocalStorage()
     todoList.splice(index, 1)
     setLocalStorage(todoList)
-}
+  }
 </script>
 
 <style scoped>
   main.el-main {
     width: 310px;
     margin: 0px auto;
-  }
-  #allClear {
-    margin: 5px 0 0 0;
-    float:right;
   }
 </style>
