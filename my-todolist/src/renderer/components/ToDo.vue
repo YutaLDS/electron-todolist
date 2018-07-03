@@ -4,7 +4,7 @@
       <el-button slot="append" @click="addTodo">Add</el-button>
     </el-input>
 
-    <el-table :data="todoList" :show-header="false" stripe>
+    <el-table :data="todoList" :show-header="false" stripe height="270px" overflow-y="scroll">
       <el-table-column prop="todo" width="auto"></el-table-column>
       <el-table-column align="center" width="100px">
         <template slot-scope="record">
@@ -12,6 +12,7 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-button id="allClear" type="danger" size="mini" @click="allClearTodo">All Clear</el-button>
   </el-main>
 </template>
 
@@ -30,8 +31,6 @@
         todoObj.todo = this.todo
 
         var todoList = getLocalStorage()
-        var index = todoList.length
-        todoObj.id = index
 
         todoList.push(todoObj)
         setLocalStorage(todoList)
@@ -42,6 +41,11 @@
       // Done押下時
       deleteTodo (index) {
         deleteLocalStorage(index)
+        this.todoList = getLocalStorage()
+      },
+      // All Clear押下時
+      allClearTodo () {
+        deleteAllLocalStorage()
         this.todoList = getLocalStorage()
       }
     }
@@ -69,11 +73,22 @@
     todoList.splice(index, 1)
     setLocalStorage(todoList)
   }
+
+  // LocalStorage全削除
+  var deleteAllLocalStorage = function () {
+    var todoList = getLocalStorage()
+    todoList.splice(0)
+    setLocalStorage(todoList)
+  }
 </script>
 
 <style scoped>
   main.el-main {
     width: 310px;
     margin: 0px auto;
+  }
+  #allClear {
+    margin: 5px 0 0 0;
+    float:right;
   }
 </style>
