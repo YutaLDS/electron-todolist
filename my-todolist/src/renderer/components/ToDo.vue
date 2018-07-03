@@ -1,19 +1,17 @@
 <template>
   <el-main>
-    <!-- „Çø„Çπ„ÇØÂÖ•Âäõ -->
-    <el-input v-model="todo" placeholder="ToDo„ÇíÂÖ•Âäõ" clearable>
-      <el-button slot="append" size="mini" @click="addTodo">Add</el-button>
+    <el-input v-model.trim="todo" placeholder="ToDoÇì¸óÕ">
+      <el-button slot="append" @click="addTodo()">Add</el-button>
     </el-input>
-    <!-- „Çø„Çπ„ÇØ‰∏ÄË¶ß -->
-    <el-table :data="todoList" :show-header="false" stripe height="270px" overflow-y="scroll">
+
+    <el-table :data="todoList" :show-header="false" stripe>
       <el-table-column prop="todo" width="auto"></el-table-column>
       <el-table-column align="center" width="100px">
         <template slot-scope="record">
-          <el-button size="mini" type="warning" @click="deleteTodo(record.$index)">Done</el-button>
+          <el-button type="warning" size="mini" @click="deleteTodo(record.$index)">Done</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-button id="allClear" size="mini" type="danger" @click="deleteAllTodo(record)">All Clear</el-button>
   </el-main>
 </template>
 
@@ -21,31 +19,61 @@
   export default {
     data () {
       return {
-        todoList: [],
+        todoList: getLocalStorage(),
         todo: ''
       }
     },
     methods: {
-      // „Çø„Çπ„ÇØËøΩÂä†
+      // Addâüâ∫éûí«â¡
       addTodo () {
-        this.todoList.push({todo: this.todo})
+        var todoObj = {}
+        todoObj.todo = this.todo
+
+        var todoList = getLocalStorage()
+        var index = todoList.length
+        todoObj.id = index
+
+        todoList.push(todoObj)
+        setLocalStorage(todoList)
+
+        this.todoList = getLocalStorage()
         this.todo = ''
       },
-      // „É¨„Ç≥„Éº„ÉâÂâäÈô§
+      // Doneâüâ∫éûçÌèú
       deleteTodo (index) {
-        this.todoList.splice(index, 1)
-      },
-      // ÂÖ®ÂâäÈô§
-      deleteAllTodo (record) {
-        this.todoList.splice(record)
+        deleteLocalStorage(index)
+        this.todoList = getLocalStorage()
       }
     }
   }
+
+// LocalStorageÇ©ÇÁéÊìæ
+var getLocalStorage = function () {
+    var todoList = []
+    if (localStorage.getItem('todoList') != null) {
+      todoList = localStorage.getItem('todoList')
+      todoList = JSON.parse(todoList)
+    }
+    return todoList
+}
+
+// LocalStorageÇ÷ï€ë∂
+var setLocalStorage = function (todoList) {
+    var jsonData = JSON.stringify(todoList)
+    localStorage.setItem('todoList', jsonData)
+}
+
+// LocalStorageÇ©ÇÁçÌèú
+var deleteLocalStorage = function (index) {
+    var todoList = getLocalStorage()
+    todoList.splice(index, 1)
+    setLocalStorage(todoList)
+}
 </script>
 
 <style scoped>
   main.el-main {
-    width: 350px;
+    width: 310px;
     margin: 0px auto;
   }
   #allClear {
