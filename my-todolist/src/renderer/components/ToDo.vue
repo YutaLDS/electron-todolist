@@ -1,6 +1,6 @@
 <template>
   <el-main>
-    <el-input v-model.trim="todo" placeholder="ToDoを入力">
+    <el-input v-model.trim="todo" placeholder="ToDoを入力" clearable>
       <el-button slot="append" @click="addTodo">Add</el-button>
     </el-input>
 
@@ -8,7 +8,7 @@
       <el-table-column prop="todo" width="auto"></el-table-column>
       <el-table-column align="center" width="100px">
         <template slot-scope="record">
-          <el-button type="warning" size="mini" @click="deleteTodo(record.$index)">Done</el-button>
+          <el-button type="success" size="mini" @click="deleteTodo(record.$index)">Done</el-button>
         </template>
       </el-table-column>
     </el-table>
